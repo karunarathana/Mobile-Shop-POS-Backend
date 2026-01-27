@@ -1,36 +1,104 @@
 package com.diyadahara.orders_manage.dto;
 
+import com.diyadahara.orders_manage.config.ProductCondition;
+
 public class ProductDto {
-    private String foodName;
-    private double foodPrice;
-    private int discountPercentage;
+    private String name;
+    private String brand;
+    private String model;
+    private String imeiNumber;
+    private String color;
+    private String storageCapacity;
+    private ProductCondition condition; // Send as string: "NEW", "USED", "REFURBISHED"
+    private double purchasePrice;
+    private double sellingPrice;
+    private int quantityInStock;
     private Long categoryId;
-    private String updatedBy;
-    private String size;
-    private SizeOfProduct sizeOfPotion;
+    private int discount;
+    private String createBy;
 
-    public String getFoodName() {
-        return foodName;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public double getFoodPrice() {
-        return foodPrice;
+    public String getModel() {
+        return model;
     }
 
-    public void setFoodPrice(double foodPrice) {
-        this.foodPrice = foodPrice;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public int getDiscountPercentage() {
-        return discountPercentage;
+    public String getImeiNumber() {
+        return imeiNumber;
     }
 
-    public void setDiscountPercentage(int discountPercentage) {
-        this.discountPercentage = discountPercentage;
+    public void setImeiNumber(String imeiNumber) {
+        this.imeiNumber = imeiNumber;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getStorageCapacity() {
+        return storageCapacity;
+    }
+
+    public void setStorageCapacity(String storageCapacity) {
+        this.storageCapacity = storageCapacity;
+    }
+
+    public ProductCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(ProductCondition condition) {
+        this.condition = condition;
+    }
+
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public Integer getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(Integer quantityInStock) {
+        this.quantityInStock = quantityInStock;
+    }
+
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
     public Long getCategoryId() {
@@ -41,27 +109,19 @@ public class ProductDto {
         this.categoryId = categoryId;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public String getName() {
+        return name;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public SizeOfProduct getSizeOfPotion() {
-        return sizeOfPotion;
+    public String getCreateBy() {
+        return createBy;
     }
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public void setSizeOfPotion(SizeOfProduct sizeOfPotion) {
-        this.sizeOfPotion = sizeOfPotion;
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

@@ -1,15 +1,22 @@
 package com.diyadahara.orders_manage.dto;
 
+import com.diyadahara.orders_manage.config.ProductCondition;
+
 public class UpdateProductDto {
     private int productId;
-    private String foodName;
-    private double foodPrice;
-    private int discountPercentage;
+    private String name;
+    private String brand;
+    private String model;
+    private String imeiNumber;
+    private String color;
+    private String storageCapacity;
+    private ProductCondition condition; // Send as string: "NEW", "USED", "REFURBISHED"
+    private double purchasePrice;
+    private double sellingPrice;
+    private int quantityInStock;
     private Long categoryId;
-    private Long potionID;
-    private String updatedBy;
-    private String size;
-    private SizeOfProduct sizeOfPotion;
+    private int discount;
+    private String createBy;
 
     public int getProductId() {
         return productId;
@@ -19,28 +26,84 @@ public class UpdateProductDto {
         this.productId = productId;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public String getName() {
+        return name;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getFoodPrice() {
-        return foodPrice;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setFoodPrice(double foodPrice) {
-        this.foodPrice = foodPrice;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
-    public int getDiscountPercentage() {
-        return discountPercentage;
+    public String getModel() {
+        return model;
     }
 
-    public void setDiscountPercentage(int discountPercentage) {
-        this.discountPercentage = discountPercentage;
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getImeiNumber() {
+        return imeiNumber;
+    }
+
+    public void setImeiNumber(String imeiNumber) {
+        this.imeiNumber = imeiNumber;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getStorageCapacity() {
+        return storageCapacity;
+    }
+
+    public void setStorageCapacity(String storageCapacity) {
+        this.storageCapacity = storageCapacity;
+    }
+
+    public ProductCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(ProductCondition condition) {
+        this.condition = condition;
+    }
+
+    public double getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(double purchasePrice) {
+        this.purchasePrice = purchasePrice;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public int getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
     }
 
     public Long getCategoryId() {
@@ -51,35 +114,19 @@ public class UpdateProductDto {
         this.categoryId = categoryId;
     }
 
-    public String getUpdatedBy() {
-        return updatedBy;
+    public int getDiscount() {
+        return discount;
     }
 
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
+    public void setDiscount(int discount) {
+        this.discount = discount;
     }
 
-    public SizeOfProduct getSizeOfPotion() {
-        return sizeOfPotion;
+    public String getCreateBy() {
+        return createBy;
     }
 
-    public void setSizeOfPotion(SizeOfProduct sizeOfPotion) {
-        this.sizeOfPotion = sizeOfPotion;
-    }
-
-    public Long getPotionID() {
-        return potionID;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public void setPotionID(Long potionID) {
-        this.potionID = potionID;
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }
