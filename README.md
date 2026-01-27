@@ -1,2 +1,2 @@
-# Mobile-Shop-POS-Backend
-This is a Mobile Shop POS Backend project. Developed using spring boot. Developed by NSK Tech Solution.
+# Diyadahara-Order-System-Backend
+This is Diyadahara order system. Create Spring Boot. Developed By NSK Tech Solution.
