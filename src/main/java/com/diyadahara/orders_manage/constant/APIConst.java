@@ -32,4 +32,10 @@ public class APIConst {
     public static final String CREATE_REPAIR = "/create-repair-device";
     public static final String CREATE_SALE = "/create-sale";
     public static final String VIEW_ALL_SALE = "/view-all-sale";
+
+    public static final String CREATE_RELOAD = "/create-reload";
+    public static final String DELETE_RELOAD = "/delete-single-reload";
+    public static final String EDIT_RELOAD = "/update-single-reload";
+    public static final String VIEW_ALL_RELOAD = "/view-all-reload";
+    public static final String VIEW_ALL_PREVIOUS_RELOAD = "/view-all-reload-by-date";
 }
