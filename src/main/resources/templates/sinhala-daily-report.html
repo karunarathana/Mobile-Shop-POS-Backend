@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>දෛනික විකුණුම් වාර්තාව</title>
+    <style>
+        @font-face {
+            font-family: 'Abhaya Libre';
+            src: url('classpath:/fonts/AbhayaLibre-Regular.ttf');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Abhaya Libre';
+            src: url('classpath:/fonts/AbhayaLibre-Bold.ttf');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'Abhaya Libre', 'Iskoola Pota', sans-serif;
+            direction: ltr;
+            text-align: left;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-size: 12pt;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .shop-name {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .report-title {
+            font-size: 18pt;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .date-info {
+            font-size: 11pt;
+            color: #7f8c8d;
+        }
+
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 11pt;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            text-align: left;
+            font-size: 11pt;
+        }
+
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #dee2e6;
+            font-size: 11pt;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #ecf0f1 !important;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid #bdc3c7;
+            font-size: 10pt;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        .signature-area {
+            margin-top: 40px;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 200px;
+            margin: 40px auto 5px auto;
+        }
+
+        .signature-label {
+            text-align: center;
+            font-size: 11pt;
+        }
+
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .rupee-symbol {
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Section -->
+<div class="header">
+    <div class="shop-name" th:text="${shopName}">දුරකථන ගබඩාව</div>
+    <div class="report-title" th:text="${reportTitle}">දෛනික විකුණුම් වාර්තාව</div>
+    <div class="date-info">
+        වාර්තා දිනය: <span th:text="${#dates.format(reportDate, 'yyyy-MM-dd')}"></span> |
+        ජනනය කළ දිනය: <span th:text="${#dates.format(generatedDate, 'yyyy-MM-dd HH:mm')}"></span>
+    </div>
+</div>
+
+<!-- Summary Section -->
+<div class="section">
+    <div class="section-title">සාරාංශය</div>
+    <div class="summary-grid">
+        <div class="summary-box">
+            <div class="summary-label">මුළු විකුණුම්</div>
+            <div class="summary-value" th:text="${summary.totalSales}">රු. 125,450.00</div>
+        </div>
+        <div class="summary-box">
+            <div class="summary-label">ගනුදෙනු</div>
+            <div class="summary-value" th:text="${summary.totalTransactions}">45</div>
+        </div>
+        <div class="summary-box">
+            <div class="summary-label">සාමාන්‍ය විකුණුම</div>
+            <div class="summary-value" th:text="${summary.averageSale}">රු. 2,787.78</div>
+        </div>
+    </div>
+</div>
+
+<!-- Top Products Section -->
+<div class="section">
+    <div class="section-title">වැඩිපුර අලෙවි වූ භාණ්ඩ</div>
+    <table>
+        <thead>
+        <tr>
+            <th width="50%">භාණ්ඩය</th>
+            <th width="20%">ප්‍රමාණය</th>
+            <th width="30%">මුළු මුදල</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${topProducts}">
+            <td th:text="${product.name}">සැම්සන්ග් ගැලැක්සි S23</td>
+            <td th:text="${product.quantity}">5</td>
+            <td th:text="${product.amount}">රු. 375,000</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr class="total-row">
+            <td colspan="2"><strong>සියළුම භාණ්ඩ</strong></td>
+            <td><strong>රු. 744,000</strong></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+<!-- Payment Methods Section -->
+<div class="section">
+    <div class="section-title">ගෙවීම් ආකාර</div>
+    <table>
+        <thead>
+        <tr>
+            <th width="70%">ගෙවීම් ආකාරය</th>
+            <th width="30%">ප්‍රමාණය</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="payment, stat : ${payments}">
+            <td th:text="${payment.key}">කොටස</td>
+            <td th:text="${payment.value}">රු. 89,250 (71.2%)</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Additional Information -->
+<div class="section">
+    <div class="section-title">අමතර තොරතුරු</div>
+    <p>• අද දින විශේෂ පිරිනැමීම්: 3ක්</p>
+    <p>• ආපසු ලබා දුන් භාණ්ඩ: 2ක්</p>
+    <p>• වට්ටම් මුළු මුදල: රු. 12,500</p>
+    <p>• නව පාරිභෝගිකයින්: 8 දෙනෙක්</p>
+</div>
+
+<!-- Footer & Signature -->
+<div class="footer">
+    <div class="signature-area">
+        <div class="signature-line"></div>
+        <div class="signature-label">වගකීම් දරන අධ්‍යක්ෂක</div>
+    </div>
+    <p>මෙම වාර්තාව ස්වයංක්‍රීයව ජනනය කරන ලදී</p>
+    <p th:text="${shopAddress}">කොළඹ 05, ශ්‍රී ලංකාව | දුරකථන: 011-2345678</p>
+</div>
+
+</body>
+</html>

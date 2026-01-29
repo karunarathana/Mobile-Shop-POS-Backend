@@ -64,6 +64,26 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
+<!--		Adding generate Report dependancy-->
+		<!-- Flying Saucer for HTML to PDF -->
+		<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>9.1.22</version>
+		</dependency>
+
+		<!-- Thymeleaf for HTML templates -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- Scheduling -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
