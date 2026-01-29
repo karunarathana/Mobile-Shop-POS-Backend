@@ -26,7 +26,7 @@ public class ProductController {
 
     @RequestMapping(value = APIConst.CREATE_PRODUCT, method = RequestMethod.POST)
     public ResponseEntity<BaseProductResponse> createProduct(@Valid @RequestBody ProductDto productDto) {
-        logger.info("Request Started IN createProduct |Request={} |FoodName={}", productDto,productDto.getFoodName());
+        logger.info("Request Started IN createProduct |Request={} |FoodName={}", productDto,productDto.getName());
         BaseProductResponse response = productService.createProduct(productDto);
         logger.info("Request Completed IN createProduct |Response={}", response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -61,7 +61,7 @@ public class ProductController {
     }
     @RequestMapping(value = APIConst.Update_PRODUCT_BY_ID, method = RequestMethod.POST)
     public ResponseEntity<BaseProductResponse> updateSingleProduct(@Valid @RequestBody UpdateProductDto productDto) {
-        logger.info("Request Started IN updateSingleProduct |Request={} |FoodName={}", productDto,productDto.getFoodName());
+        logger.info("Request Started IN updateSingleProduct |Request={} |FoodName={}", productDto,productDto.getName());
         BaseProductResponse response = productService.updateSingleProduct(productDto);
         logger.info("Request Completed IN updateSingleProduct |Response={}", response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
