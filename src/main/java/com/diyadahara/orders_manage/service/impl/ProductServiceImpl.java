@@ -1,11 +1,14 @@
 package com.diyadahara.orders_manage.service.impl;
 
+import com.diyadahara.orders_manage.config.ProductCondition;
 import com.diyadahara.orders_manage.dto.ProductDto;
 import com.diyadahara.orders_manage.dto.UpdateProductDto;
 import com.diyadahara.orders_manage.model.CategoryModel;
 import com.diyadahara.orders_manage.model.ProductModel;
+import com.diyadahara.orders_manage.model.SaleItemModel;
 import com.diyadahara.orders_manage.repo.CategoryRepo;
 import com.diyadahara.orders_manage.repo.ProductRepo;
+import com.diyadahara.orders_manage.repo.SaleItemRepo;
 import com.diyadahara.orders_manage.response.BaseAllProductResponse;
 import com.diyadahara.orders_manage.response.BaseProductResponse;
 import com.diyadahara.orders_manage.service.ProductService;
@@ -19,11 +22,13 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+    private final SaleItemRepo saleItemRepo;
     private final ProductRepo productRepo;
     private final CategoryRepo categoryRepo;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    public ProductServiceImpl(ProductRepo productRepo, CategoryRepo categoryRepo) {
+    public ProductServiceImpl(SaleItemRepo saleItemRepo, ProductRepo productRepo, CategoryRepo categoryRepo) {
+        this.saleItemRepo = saleItemRepo;
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
     }
@@ -33,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Method Execution Started IN createProduct |ProductDto={} |ProductName={}", productDto, productDto.getName());
 
         //check existing product
-        if (productRepo.existsByFoodName(productDto.getImeiNumber()) == null) {
+        if (productRepo.existsByProduct(productDto.getImeiNumber()) == null) {
             try {
                 ProductModel productModel = generateProductModel(productDto);
                 ProductModel saveData = productRepo.save(productModel);
@@ -94,14 +99,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public BaseProductResponse deleteSingleProduct(int productId) {
         logger.info("Method Execution Started IN deleteSingleProduct |ProductId={}", productId);
-        Optional<ProductModel> productData = productRepo.findById((long) productId);
-        if (productData.isPresent()) {
+        try {
+            List<SaleItemModel> existingProduct = saleItemRepo.allSaleItemByProductId((long) productId);
+            if(existingProduct.isEmpty()){
+                productRepo.deleteById((long) productId);
+                logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
+                return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK,null);
+            }
+            saleItemRepo.deleteAllByProductId((long)productId);
             productRepo.deleteById((long) productId);
             logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
-            return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK, null);
+            return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK,null);
+        } catch (Exception e) {
+            logger.error("Error deleteSingleProduct: {}", e.getMessage(), e);
+            return createSuccessProductResponse("Failed to view product category: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,null);
         }
-        logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={} |Response={}", productId, "Please Check Product");
-        return createErrorProductResponse("Please Check Product ProductId = "+productId, HttpStatus.BAD_REQUEST);
     }
 
     @Override
@@ -132,7 +145,7 @@ public class ProductServiceImpl implements ProductService {
     public BaseProductResponse updateSingleProduct(UpdateProductDto productDto) {
         logger.info("Method Execution Started IN updateSingleProduct |ProductDto={} |ProductName={}", productDto, productDto.getName());
 
-        if (productRepo.existsByFoodName(productDto.getName()) != null) {
+        if (productRepo.existsByProduct(productDto.getImeiNumber()) != null) {
             try {
                 ProductModel productModel = generateUpdateProductModel(productDto);
                 ProductModel saveData = productRepo.save(productModel);
@@ -166,7 +179,7 @@ public class ProductServiceImpl implements ProductService {
         productModel.setSellingPrice(productDto.getSellingPrice());
         productModel.setModel(productDto.getModel());
         productModel.setBrand(productDto.getBrand());
-        productModel.setCondition(productDto.getCondition());
+        productModel.setCondition(ProductCondition.valueOf(productDto.getCondition().toUpperCase()));
         productModel.setQuantityInStock(productDto.getQuantityInStock());
         productModel.setImeiNumber(productDto.getImeiNumber());
         productModel.setColor(productDto.getColor());
@@ -177,6 +190,7 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductModel generateUpdateProductModel(UpdateProductDto productDto) {
         ProductModel productModel = new ProductModel();
+        productModel.setProductId((long)productDto.getProductId());
         productModel.setProductName(productDto.getName());
         CategoryModel category = categoryRepo.findById(productDto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));

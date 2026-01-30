@@ -9,7 +9,7 @@ public class ProductDto {
     private String imeiNumber;
     private String color;
     private String storageCapacity;
-    private ProductCondition condition; // Send as string: "NEW", "USED", "REFURBISHED"
+    private String condition; // Send as string: "NEW", "USED", "REFURBISHED"
     private double purchasePrice;
     private double sellingPrice;
     private int quantityInStock;
@@ -57,11 +57,11 @@ public class ProductDto {
         this.storageCapacity = storageCapacity;
     }
 
-    public ProductCondition getCondition() {
+    public String getCondition() {
         return condition;
     }
 
-    public void setCondition(ProductCondition condition) {
+    public void setCondition(String condition) {
         this.condition = condition;
     }
 
