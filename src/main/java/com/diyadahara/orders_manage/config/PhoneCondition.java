@@ -1,6 +1,6 @@
 package com.diyadahara.orders_manage.config;
 
-public enum ProductCondition {
+public enum PhoneCondition {
     NEW,
     REFURBISHED,
     USED,

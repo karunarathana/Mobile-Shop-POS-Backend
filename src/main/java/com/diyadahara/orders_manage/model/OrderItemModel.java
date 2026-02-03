@@ -21,7 +21,7 @@ public class OrderItemModel {
     // Food relationship
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", foreignKey = @ForeignKey(name = "fk_user_order_item_product"))
-    private ProductModel productId;
+    private PhoneModel productId;
 
     public Long getOrderItemId() {
         return orderItemId;
@@ -55,11 +55,11 @@ public class OrderItemModel {
         this.orderId = orderId;
     }
 
-    public ProductModel getProductId() {
+    public PhoneModel getProductId() {
         return productId;
     }
 
-    public void setProductId(ProductModel productId) {
+    public void setProductId(PhoneModel productId) {
         this.productId = productId;
     }
 

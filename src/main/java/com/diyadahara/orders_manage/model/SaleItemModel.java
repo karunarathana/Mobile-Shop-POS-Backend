@@ -29,7 +29,7 @@ public class SaleItemModel {
             nullable = false,
             foreignKey = @ForeignKey(name = "fk_sale_item_product")
     )
-    private ProductModel product;
+    private PhoneModel product;
 
     @Column(nullable = false)
     private int quantity;
@@ -59,11 +59,11 @@ public class SaleItemModel {
         this.sale = sale;
     }
 
-    public ProductModel getProduct() {
+    public PhoneModel getProduct() {
         return product;
     }
 
-    public void setProduct(ProductModel product) {
+    public void setProduct(PhoneModel product) {
         this.product = product;
     }
 

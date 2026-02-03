@@ -137,26 +137,18 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     private AccessoryModel createAccessoryModel(AccessoryDto accessoryDto){
         AccessoryModel accessoryModel = new AccessoryModel();
-        accessoryModel.setName(accessoryDto.getName());
         accessoryModel.setType(accessoryDto.getType());
         accessoryModel.setBrand(accessoryDto.getBrand());
         accessoryModel.setCompatibleWith(accessoryDto.getCompatibleWith());
-        accessoryModel.setCostPrice(accessoryDto.getCostPrice());
-        accessoryModel.setSellPrice(accessoryDto.getSellPrice());
-        accessoryModel.setQuantity(accessoryDto.getQuantity());
         accessoryModel.setRackId(accessoryDto.getRackId());
         return accessoryModel;
     }
     private AccessoryModel updateAccessoryModel(UpdateAccessoryDto accessoryDto){
         AccessoryModel accessoryModel = new AccessoryModel();
         accessoryModel.setAccessoryId((long)accessoryDto.getAccessoryId());
-        accessoryModel.setName(accessoryDto.getName());
         accessoryModel.setType(accessoryDto.getType());
         accessoryModel.setBrand(accessoryDto.getBrand());
         accessoryModel.setCompatibleWith(accessoryDto.getCompatibleWith());
-        accessoryModel.setCostPrice(accessoryDto.getCostPrice());
-        accessoryModel.setSellPrice(accessoryDto.getSellPrice());
-        accessoryModel.setQuantity(accessoryDto.getQuantity());
         accessoryModel.setRackId(accessoryDto.getRackId());
         return accessoryModel;
     }

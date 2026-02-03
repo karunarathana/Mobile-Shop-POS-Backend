@@ -3,7 +3,7 @@ package com.diyadahara.orders_manage.service.impl;
 import com.diyadahara.orders_manage.dto.SaleDto;
 import com.diyadahara.orders_manage.dto.SaleItemDTO;
 import com.diyadahara.orders_manage.model.CustomerModel;
-import com.diyadahara.orders_manage.model.ProductModel;
+import com.diyadahara.orders_manage.model.PhoneModel;
 import com.diyadahara.orders_manage.model.SaleItemModel;
 import com.diyadahara.orders_manage.model.SaleModel;
 import com.diyadahara.orders_manage.repo.*;
@@ -20,16 +20,16 @@ import java.util.List;
 public class SaleServiceImpl implements SaleService {
     private final CustomerRepo customerRepo;
     private final WarrantyRepo warrantyRepo;
-    private final ProductRepo productRepo;
+    private final PhoneRepo phoneRepo;
     private final SaleRepo saleRepo;
     private final SaleItemRepo saleItemRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(SaleServiceImpl.class);
 
-    public SaleServiceImpl(CustomerRepo customerRepo, WarrantyRepo warrantyRepo, ProductRepo productRepo, SaleRepo saleRepo, SaleItemRepo saleItemRepo) {
+    public SaleServiceImpl(CustomerRepo customerRepo, WarrantyRepo warrantyRepo, PhoneRepo phoneRepo, SaleRepo saleRepo, SaleItemRepo saleItemRepo) {
         this.customerRepo = customerRepo;
         this.warrantyRepo = warrantyRepo;
-        this.productRepo = productRepo;
+        this.phoneRepo = phoneRepo;
         this.saleRepo = saleRepo;
         this.saleItemRepo = saleItemRepo;
     }
@@ -102,7 +102,7 @@ public class SaleServiceImpl implements SaleService {
             saleItemModel.setWarrantyDuration(data.getWarrantyDuration());
             saleItemModel.setUnitPrice(data.getUnitPrice());
 
-            ProductModel product = productRepo.findById((long) data.getProductId())
+            PhoneModel product = phoneRepo.findById((long) data.getProductId())
                     .orElseThrow(() -> new RuntimeException("product not found"));
             saleItemModel.setProduct(product);
             saleItems.add(saleItemModel);

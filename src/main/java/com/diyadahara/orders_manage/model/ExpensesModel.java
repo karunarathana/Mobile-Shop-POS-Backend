@@ -1,9 +1,7 @@
 package com.diyadahara.orders_manage.model;
 
-import com.diyadahara.orders_manage.config.ReloadStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -11,25 +9,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "t_reload")
-public class ReloadModel {
+@Table(name = "t_expenses")
+public class ExpensesModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reload_id")
-    private Long reloadId;
+    @Column(name = "expenses_id")
+    private Long expensesId;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = true)
-    private String simType;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private ReloadStatus status;
-
-
-    @Positive
     @Column(nullable = false)
     private double price;
 
@@ -46,13 +35,12 @@ public class ReloadModel {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
-
-    public Long getReloadId() {
-        return reloadId;
+    public Long getExpensesId() {
+        return expensesId;
     }
 
-    public void setReloadId(Long reloadId) {
-        this.reloadId = reloadId;
+    public void setExpensesId(Long expensesId) {
+        this.expensesId = expensesId;
     }
 
     public String getDescription() {
@@ -78,6 +66,7 @@ public class ReloadModel {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
     public LocalDate getDate() {
         return date;
     }
@@ -85,21 +74,4 @@ public class ReloadModel {
     public void setDate(LocalDate date) {
         this.date = date;
     }
-
-    public String getSimType() {
-        return simType;
-    }
-
-    public void setSimType(String type) {
-        this.simType = type;
-    }
-    public ReloadStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ReloadStatus status) {
-        this.status = status;
-    }
-
-
 }

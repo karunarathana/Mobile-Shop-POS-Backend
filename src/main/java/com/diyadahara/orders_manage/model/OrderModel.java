@@ -1,7 +1,6 @@
 package com.diyadahara.orders_manage.model;
 
 
-import com.diyadahara.orders_manage.config.CustomerStatus;
 import com.diyadahara.orders_manage.config.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;

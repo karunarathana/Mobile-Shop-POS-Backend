@@ -1,6 +1,6 @@
 package com.diyadahara.orders_manage.dto;
 
-import com.diyadahara.orders_manage.config.ProductCondition;
+import com.diyadahara.orders_manage.config.PhoneCondition;
 
 public class UpdateProductDto {
     private int productId;
@@ -10,7 +10,7 @@ public class UpdateProductDto {
     private String imeiNumber;
     private String color;
     private String storageCapacity;
-    private ProductCondition condition; // Send as string: "NEW", "USED", "REFURBISHED"
+    private PhoneCondition condition; // Send as string: "NEW", "USED", "REFURBISHED"
     private double purchasePrice;
     private double sellingPrice;
     private int quantityInStock;
@@ -74,11 +74,11 @@ public class UpdateProductDto {
         this.storageCapacity = storageCapacity;
     }
 
-    public ProductCondition getCondition() {
+    public PhoneCondition getCondition() {
         return condition;
     }
 
-    public void setCondition(ProductCondition condition) {
+    public void setCondition(PhoneCondition condition) {
         this.condition = condition;
     }
 
