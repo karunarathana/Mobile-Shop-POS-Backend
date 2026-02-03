@@ -1,6 +1,5 @@
 package com.diyadahara.orders_manage.repo;
 
-import com.diyadahara.orders_manage.model.ProductModel;
 import com.diyadahara.orders_manage.model.ReloadModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

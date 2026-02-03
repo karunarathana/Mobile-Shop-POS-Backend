@@ -1,5 +1,6 @@
 package com.diyadahara.orders_manage.response;
 
+import com.diyadahara.orders_manage.model.PhoneModel;
 import com.diyadahara.orders_manage.model.ProductModel;
 
 public class BaseProductResponse {

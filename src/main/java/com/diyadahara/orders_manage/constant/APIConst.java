@@ -4,9 +4,11 @@ public class APIConst {
     public static final String API_ROOT = "api/com-diyadahara";
 
     public static final String CREATE_PRODUCT = "/create-product";
+    public static final String CREATE_ACCESSORY = "/create-accessory";
     public static final String VIEW_ALL_PRODUCT = "/view-all-product";
     public static final String DELETE_PRODUCT_BY_ID = "/delete-single-product";
     public static final String VIEW_PRODUCT_BY_ID = "/view-single-product";
+    public static final String VIEW_PRODUCT_BY_TYPE = "/view-single-product-by-type";
     public static final String Update_PRODUCT_BY_ID = "/update-single-product";
     public static final String GET_ALL_PRODUCT_BY_CATEGORY = "/get-all-product-by-category";
 
@@ -38,4 +40,10 @@ public class APIConst {
     public static final String EDIT_RELOAD = "/update-single-reload";
     public static final String VIEW_ALL_RELOAD = "/view-all-reload";
     public static final String VIEW_ALL_PREVIOUS_RELOAD = "/view-all-reload-by-date";
+
+    public static final String CREATE_EXPENSES = "/create-expenses";
+    public static final String DELETE_EXPENSES = "/delete-single-expenses";
+    public static final String EDIT_EXPENSES = "/update-single-expenses";
+    public static final String VIEW_ALL_EXPENSES = "/view-all-expenses";
+    public static final String VIEW_ALL_PREVIOUS_EXPENSES = "/view-all-expenses-by-date";
 }

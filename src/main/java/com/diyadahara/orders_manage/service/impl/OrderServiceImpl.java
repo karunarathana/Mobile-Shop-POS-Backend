@@ -6,11 +6,11 @@ import com.diyadahara.orders_manage.dto.OrderItemDto;
 import com.diyadahara.orders_manage.model.CustomerModel;
 import com.diyadahara.orders_manage.model.OrderItemModel;
 import com.diyadahara.orders_manage.model.OrderModel;
-import com.diyadahara.orders_manage.model.ProductModel;
+import com.diyadahara.orders_manage.model.PhoneModel;
 import com.diyadahara.orders_manage.repo.CustomerRepo;
 import com.diyadahara.orders_manage.repo.OrderItemRepo;
 import com.diyadahara.orders_manage.repo.OrderRepo;
-import com.diyadahara.orders_manage.repo.ProductRepo;
+import com.diyadahara.orders_manage.repo.PhoneRepo;
 import com.diyadahara.orders_manage.response.BaseOrderResponse;
 import com.diyadahara.orders_manage.service.OrderService;
 import org.slf4j.Logger;
@@ -25,14 +25,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepo orderRepo;
     private final OrderItemRepo orderItemRepo;
     private final CustomerRepo customerRepo;
-    private final ProductRepo productRepo;
+    private final PhoneRepo phoneRepo;
     private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
-    public OrderServiceImpl(OrderRepo orderRepo, OrderItemRepo orderItemRepo, CustomerRepo customerRepo, ProductRepo productRepo) {
+    public OrderServiceImpl(OrderRepo orderRepo, OrderItemRepo orderItemRepo, CustomerRepo customerRepo, PhoneRepo phoneRepo) {
         this.orderRepo = orderRepo;
         this.orderItemRepo = orderItemRepo;
         this.customerRepo = customerRepo;
-        this.productRepo = productRepo;
+        this.phoneRepo = phoneRepo;
     }
 
     @Override
@@ -100,9 +100,9 @@ public class OrderServiceImpl implements OrderService {
             orderItemModel.setOrderId(saveOrder);
             orderItemModel.setPrice(data.getPrice());
             orderItemModel.setQuantity(data.getQuantity());
-            ProductModel productModel = productRepo.findById((long) data.getProductId())
+            PhoneModel phoneModel = phoneRepo.findById((long) data.getProductId())
                     .orElseThrow(() -> new RuntimeException("Customer not found"));
-            orderItemModel.setProductId(productModel);
+            orderItemModel.setProductId(phoneModel);
             orderItemModel.setPotion(data.getPotion());
             saveAllOrderData.add(orderItemModel);
         }

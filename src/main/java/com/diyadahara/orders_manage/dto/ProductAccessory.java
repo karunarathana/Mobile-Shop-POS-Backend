@@ -1,16 +1,22 @@
 package com.diyadahara.orders_manage.dto;
 
-import com.diyadahara.orders_manage.config.ProductStatus;
-
-public class ProductDto {
+public class ProductAccessory {
     private String productName;
     private double purchasePrice;
     private double sellingPrice;
-    private int stock;
     private String status;
     private int discountPercentage;
     private String type;
-    private PhoneDto phoneDto;
+    private int stock;
+    private AccessoryDto accessoryDto;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public double getPurchasePrice() {
         return purchasePrice;
@@ -28,13 +34,6 @@ public class ProductDto {
         this.sellingPrice = sellingPrice;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
 
     public String getStatus() {
         return status;
@@ -60,19 +59,19 @@ public class ProductDto {
         this.type = type;
     }
 
-    public PhoneDto getPhoneDto() {
-        return phoneDto;
+    public AccessoryDto getAccessoryDto() {
+        return accessoryDto;
     }
 
-    public void setPhoneDto(PhoneDto phoneDto) {
-        this.phoneDto = phoneDto;
+    public void setAccessoryDto(AccessoryDto accessoryDto) {
+        this.accessoryDto = accessoryDto;
     }
 
-    public String getProductName() {
-        return productName;
+    public int getStock() {
+        return stock;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

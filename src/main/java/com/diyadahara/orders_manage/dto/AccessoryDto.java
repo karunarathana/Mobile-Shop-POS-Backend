@@ -1,22 +1,13 @@
 package com.diyadahara.orders_manage.dto;
 
 public class AccessoryDto {
-    private String name;
     private String rackId;
     private String brand;
     private String type;
     private String compatibleWith;
-    private double sellPrice;
-    private double costPrice;
+    private Long categoryId;
+    private String createBy;
     private int quantity;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getRackId() {
         return rackId;
@@ -50,27 +41,27 @@ public class AccessoryDto {
         this.compatibleWith = compatibleWith;
     }
 
-    public double getSellPrice() {
-        return sellPrice;
-    }
-
-    public void setSellPrice(double sellPrice) {
-        this.sellPrice = sellPrice;
-    }
-
-    public double getCostPrice() {
-        return costPrice;
-    }
-
-    public void setCostPrice(double costPrice) {
-        this.costPrice = costPrice;
-    }
-
     public int getQuantity() {
         return quantity;
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

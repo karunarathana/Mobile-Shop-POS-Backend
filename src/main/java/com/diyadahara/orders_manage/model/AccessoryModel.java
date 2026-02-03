@@ -2,6 +2,7 @@ package com.diyadahara.orders_manage.model;
 
 import com.diyadahara.orders_manage.config.AccessoryStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,9 +18,6 @@ public class AccessoryModel {
     private Long accessoryId;
 
     @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
     private String brand;
 
     @Column(nullable = false)
@@ -31,24 +29,21 @@ public class AccessoryModel {
     @Column(name = "compatible_with")
     private String compatibleWith;
 
-    @Column(nullable = false)
-    private double costPrice;
+    private String color;
 
-    @Column(nullable = false)
-    private double sellPrice;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "category_id",
+            referencedColumnName = "category_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_accessory_category")
+    )
+    private CategoryModel categoryId;
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    @Builder.Default
-    private AccessoryStatus status = AccessoryStatus.ACTIVE;
-
-    @CreationTimestamp
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @Column(name = "create_at", nullable = false, updatable = false)
-    private LocalDateTime createAt;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", unique = true)
+    @JsonIgnore
+    private ProductModel product;
 
     public Long getAccessoryId() {
         return accessoryId;
@@ -56,14 +51,6 @@ public class AccessoryModel {
 
     public void setAccessoryId(Long accessoryId) {
         this.accessoryId = accessoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getBrand() {
@@ -98,43 +85,27 @@ public class AccessoryModel {
         this.compatibleWith = compatibleWith;
     }
 
-    public double getCostPrice() {
-        return costPrice;
+    public ProductModel getProduct() {
+        return product;
     }
 
-    public void setCostPrice(double costPrice) {
-        this.costPrice = costPrice;
+    public void setProduct(ProductModel product) {
+        this.product = product;
     }
 
-    public double getSellPrice() {
-        return sellPrice;
+    public String getColor() {
+        return color;
     }
 
-    public void setSellPrice(double sellPrice) {
-        this.sellPrice = sellPrice;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public CategoryModel getCategoryId() {
+        return categoryId;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public AccessoryStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AccessoryStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createAt = createAt;
+    public void setCategoryId(CategoryModel categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -1,15 +1,14 @@
 package com.diyadahara.orders_manage.service.impl;
 
-import com.diyadahara.orders_manage.config.CustomerStatus;
 import com.diyadahara.orders_manage.config.OrderStatus;
 import com.diyadahara.orders_manage.model.CustomerModel;
 import com.diyadahara.orders_manage.model.OrderItemModel;
 import com.diyadahara.orders_manage.model.OrderModel;
-import com.diyadahara.orders_manage.model.ProductModel;
+import com.diyadahara.orders_manage.model.PhoneModel;
 import com.diyadahara.orders_manage.repo.CustomerRepo;
 import com.diyadahara.orders_manage.repo.OrderItemRepo;
 import com.diyadahara.orders_manage.repo.OrderRepo;
-import com.diyadahara.orders_manage.repo.ProductRepo;
+import com.diyadahara.orders_manage.repo.PhoneRepo;
 import com.diyadahara.orders_manage.response.BaseDashBoardResponse;
 import com.diyadahara.orders_manage.service.DashBoardService;
 import org.slf4j.Logger;
@@ -24,13 +23,13 @@ import java.util.List;
 public class DashBoardServiceImpl implements DashBoardService {
     private static final Logger logger = LoggerFactory.getLogger(DashBoardServiceImpl.class);
     private final CustomerRepo customerRepo;
-    private final ProductRepo productRepo;
+    private final PhoneRepo phoneRepo;
     private final OrderItemRepo orderItemRepo;
     private final OrderRepo orderRepo;
 
-    public DashBoardServiceImpl(CustomerRepo customerRepo, ProductRepo productRepo, OrderItemRepo orderItemRepo, OrderRepo orderRepo) {
+    public DashBoardServiceImpl(CustomerRepo customerRepo, PhoneRepo phoneRepo, OrderItemRepo orderItemRepo, OrderRepo orderRepo) {
         this.customerRepo = customerRepo;
-        this.productRepo = productRepo;
+        this.phoneRepo = phoneRepo;
         this.orderItemRepo = orderItemRepo;
         this.orderRepo = orderRepo;
     }
@@ -41,7 +40,7 @@ public class DashBoardServiceImpl implements DashBoardService {
         BaseDashBoardResponse baseDashBoardResponse = new BaseDashBoardResponse();
         try{
             List<CustomerModel> allCustomers = customerRepo.findAll();
-            List<ProductModel> allProduct = productRepo.findAll();
+            List<PhoneModel> allProduct = phoneRepo.findAll();
             List<OrderItemModel> allOrdersItems = orderItemRepo.findAll();
             List<OrderModel> allOrders = orderRepo.findAll();
 
