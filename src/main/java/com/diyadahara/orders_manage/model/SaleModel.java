@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -49,6 +50,12 @@ public class SaleModel {
     @Column(name = "created_at", nullable = false, updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    @CreatedDate
+    @Column(name = "date", nullable = false, updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate date;
 
     public Long getSaleId() {
         return saleId;
@@ -104,5 +111,13 @@ public class SaleModel {
 
     public void setCustomer(CustomerModel customer) {
         this.customer = customer;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

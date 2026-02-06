@@ -35,6 +35,7 @@ public class APIConst {
     public static final String GET_DASHBOARD_DETAILS = "/get-dashboard-details";
 
     public static final String CREATE_REPAIR = "/create-repair-device";
+    public static final String VIEW_SINGLE_REPAIR = "/view-single-repair-device";
     public static final String CREATE_SALE = "/create-sale";
     public static final String VIEW_ALL_SALE = "/view-all-sale";
 

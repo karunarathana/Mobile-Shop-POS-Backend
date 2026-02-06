@@ -30,4 +30,11 @@ public class RepairController {
         logger.info("Request Completed IN createRepair |Response={}", response);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @RequestMapping(value = APIConst.VIEW_SINGLE_REPAIR, method = RequestMethod.GET)
+    public ResponseEntity<BaseRepairResponse> viewAllRepair(@RequestParam("cusId") int cusId) {
+        logger.info("Request Started IN viewAllRepair");
+        BaseRepairResponse response = repairService.getAllRepairSingleCustomer(cusId);
+        logger.info("Request Completed IN viewAllRepair");
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 }
