@@ -13,4 +13,8 @@ import java.util.List;
 public interface ProductRepo extends JpaRepository<ProductModel,Long> {
     @Query(value = "SELECT * FROM t_product WHERE type = :type", nativeQuery = true)
     List<ProductModel> allProductByType(@Param("type") String type);
+
+    @Query(value = "SELECT * FROM t_product WHERE type != :type", nativeQuery = true)
+    List<ProductModel> allProductByTypeNot(@Param("type") String type);
+
 }

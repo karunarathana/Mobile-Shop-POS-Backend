@@ -23,9 +23,6 @@ public class AccessoryModel {
     @Column(nullable = false)
     private String rackId;
 
-    @Column(nullable = false)
-    private String type;
-
     @Column(name = "compatible_with")
     private String compatibleWith;
 
@@ -67,14 +64,6 @@ public class AccessoryModel {
 
     public void setRackId(String rackId) {
         this.rackId = rackId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getCompatibleWith() {
