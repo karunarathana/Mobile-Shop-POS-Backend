@@ -1,14 +1,11 @@
 package com.diyadahara.orders_manage.response;
 
-
-import com.diyadahara.orders_manage.model.SaleItemModel;
-
 import java.util.List;
 
 public class BaseSaleResponse {
     private String statusCode;
     private String msg;
-    private List<SaleItemModel> saleItems;
+    private List<CustomSaleResponse> saleItems;
 
     public String getStatusCode() {
         return statusCode;
@@ -26,11 +23,11 @@ public class BaseSaleResponse {
         this.msg = msg;
     }
 
-    public List<SaleItemModel> getSaleItems() {
+    public List<CustomSaleResponse> getSaleItems() {
         return saleItems;
     }
 
-    public void setSaleItems(List<SaleItemModel> saleItems) {
+    public void setSaleItems(List<CustomSaleResponse> saleItems) {
         this.saleItems = saleItems;
     }
 }

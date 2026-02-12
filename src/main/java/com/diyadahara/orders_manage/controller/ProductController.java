@@ -3,6 +3,8 @@ package com.diyadahara.orders_manage.controller;
 import com.diyadahara.orders_manage.constant.APIConst;
 import com.diyadahara.orders_manage.dto.ProductAccessory;
 import com.diyadahara.orders_manage.dto.ProductDto;
+import com.diyadahara.orders_manage.dto.UpdateAccessoryProductDto;
+import com.diyadahara.orders_manage.dto.UpdatePhoneProductDto;
 import com.diyadahara.orders_manage.response.BaseAllProductResponse;
 import com.diyadahara.orders_manage.response.BaseProductResponse;
 import com.diyadahara.orders_manage.service.ProductService;
@@ -61,26 +63,43 @@ public class ProductController {
         logger.info("Request Completed IN viewSingleProductByTpe |Response={}", response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-//    @RequestMapping(value = APIConst.DELETE_PRODUCT_BY_ID, method = RequestMethod.DELETE)
-//    public ResponseEntity<BaseProductResponse> deleteSingleProduct(@Valid @RequestParam("ProductId") int productID) {
-//        logger.info("Request Started IN deleteSingleProduct |ProductID={}",productID);
-//        BaseProductResponse response = productService.deleteSingleProduct(productID);
-//        logger.info("Request Completed IN deleteSingleProduct |Response={}", response);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//    @RequestMapping(value = APIConst.GET_ALL_PRODUCT_BY_CATEGORY, method = RequestMethod.GET)
-//    public ResponseEntity<BaseAllProductResponse> viewAllProductByCategory(@Valid @RequestParam("CategoryId") int categoryId) {
-//        logger.info("Request Started IN viewAllProductByCategory |CategoryId={}",categoryId);
-//        BaseAllProductResponse response = productService.viewAllProductByCategory(categoryId);
-//        logger.info("Request Completed IN viewAllProductByCategory |Response={}", response);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//    @RequestMapping(value = APIConst.Update_PRODUCT_BY_ID, method = RequestMethod.POST)
-//    public ResponseEntity<BaseProductResponse> updateSingleProduct(@Valid @RequestBody UpdateProductDto productDto) {
-//        logger.info("Request Started IN updateSingleProduct |Request={} |FoodName={}", productDto,productDto.getName());
-//        BaseProductResponse response = productService.updateSingleProduct(productDto);
-//        logger.info("Request Completed IN updateSingleProduct |Response={}", response);
-//        return new ResponseEntity<>(response, HttpStatus.CREATED);
-//    }
+    @RequestMapping(value = APIConst.DELETE_PRODUCT_BY_ID, method = RequestMethod.DELETE)
+    public ResponseEntity<BaseProductResponse> deleteSingleProduct(@Valid @RequestParam("ProductId") int productID) {
+        logger.info("Request Started IN deleteSingleProduct |ProductID={}",productID);
+        BaseProductResponse response = productService.deleteSingleProduct(productID);
+        logger.info("Request Completed IN deleteSingleProduct |Response={}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = APIConst.GET_ALL_ACCESSORY_DATA, method = RequestMethod.GET)
+    public ResponseEntity<BaseAllProductResponse> allProductByTypeNotAPhone() {
+        logger.info("Request Started IN allProductByTypeNotAPhone");
+        BaseAllProductResponse response = productService.viewAllProductByTypeNotAPhone();
+        logger.info("Request Completed IN allProductByTypeNotAPhone |Response={}", response);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @RequestMapping(value = APIConst.Update_PRODUCT_BY_ID, method = RequestMethod.POST)
+    public ResponseEntity<BaseProductResponse> updateSingleProduct(@Valid @RequestBody UpdateAccessoryProductDto productDto) {
+        logger.info("Request Started IN updateSingleProduct |Request={} |ProductName={}", productDto,productDto.getProductName());
+        BaseProductResponse response = productService.updateSingleProduct(productDto);
+        logger.info("Request Completed IN updateSingleProduct |Response={}", response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = APIConst.UPDATE_ACCESSORY_BY_ID, method = RequestMethod.POST)
+    public ResponseEntity<BaseProductResponse> updateSingleAccessoryProduct(@Valid @RequestBody UpdateAccessoryProductDto accessoryProductDto) {
+        logger.info("Request Started IN updateSingleAccessoryProduct |Request={} |ProductName={}", accessoryProductDto,accessoryProductDto.getProductName());
+        BaseProductResponse response = productService.updateSingleAccessoryProduct(accessoryProductDto);
+        logger.info("Request Completed IN updateSingleAccessoryProduct |Response={}", response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = APIConst.UPDATE_PHONE_BY_ID, method = RequestMethod.POST)
+    public ResponseEntity<BaseProductResponse> updateSinglePhoneProduct(@Valid @RequestBody UpdatePhoneProductDto updatePhoneProductDto ) {
+        logger.info("Request Started IN updateSinglePhoneProduct |Request={} |ProductName={}", updatePhoneProductDto,updatePhoneProductDto.getProductName());
+        BaseProductResponse response = productService.updateSinglePhoneProduct(updatePhoneProductDto);
+        logger.info("Request Completed IN updateSinglePhoneProduct |Response={}", response);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
 }

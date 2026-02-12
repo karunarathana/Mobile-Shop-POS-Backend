@@ -3,11 +3,10 @@ package com.diyadahara.orders_manage.dto;
 public class AccessoryDto {
     private String rackId;
     private String brand;
-    private String type;
+    private String color;
     private String compatibleWith;
     private Long categoryId;
     private String createBy;
-    private int quantity;
 
     public String getRackId() {
         return rackId;
@@ -25,28 +24,12 @@ public class AccessoryDto {
         this.brand = brand;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getCompatibleWith() {
         return compatibleWith;
     }
 
     public void setCompatibleWith(String compatibleWith) {
         this.compatibleWith = compatibleWith;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Long getCategoryId() {
@@ -63,5 +46,13 @@ public class AccessoryDto {
 
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

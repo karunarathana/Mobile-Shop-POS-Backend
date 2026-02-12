@@ -6,6 +6,7 @@ import com.diyadahara.orders_manage.dto.SaleDto;
 import com.diyadahara.orders_manage.model.SaleModel;
 import com.diyadahara.orders_manage.response.BaseRepairResponse;
 import com.diyadahara.orders_manage.response.BaseSaleResponse;
+import com.diyadahara.orders_manage.response.CustomSaleResponse;
 import com.diyadahara.orders_manage.service.SaleService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

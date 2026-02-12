@@ -2,34 +2,34 @@ package com.diyadahara.orders_manage.service.impl;
 
 import com.diyadahara.orders_manage.dto.SaleDto;
 import com.diyadahara.orders_manage.dto.SaleItemDTO;
-import com.diyadahara.orders_manage.model.CustomerModel;
-import com.diyadahara.orders_manage.model.PhoneModel;
-import com.diyadahara.orders_manage.model.SaleItemModel;
-import com.diyadahara.orders_manage.model.SaleModel;
+import com.diyadahara.orders_manage.model.*;
 import com.diyadahara.orders_manage.repo.*;
 import com.diyadahara.orders_manage.response.BaseSaleResponse;
+import com.diyadahara.orders_manage.response.CustomSaleItems;
+import com.diyadahara.orders_manage.response.CustomSaleResponse;
 import com.diyadahara.orders_manage.service.SaleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SaleServiceImpl implements SaleService {
     private final CustomerRepo customerRepo;
-    private final WarrantyRepo warrantyRepo;
-    private final PhoneRepo phoneRepo;
+    private final ProductRepo productRepo;
     private final SaleRepo saleRepo;
     private final SaleItemRepo saleItemRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(SaleServiceImpl.class);
 
-    public SaleServiceImpl(CustomerRepo customerRepo, WarrantyRepo warrantyRepo, PhoneRepo phoneRepo, SaleRepo saleRepo, SaleItemRepo saleItemRepo) {
+    public SaleServiceImpl(CustomerRepo customerRepo, ProductRepo productRepo, SaleRepo saleRepo, SaleItemRepo saleItemRepo) {
         this.customerRepo = customerRepo;
-        this.warrantyRepo = warrantyRepo;
-        this.phoneRepo = phoneRepo;
+        this.productRepo = productRepo;
         this.saleRepo = saleRepo;
         this.saleItemRepo = saleItemRepo;
     }
@@ -45,38 +45,140 @@ public class SaleServiceImpl implements SaleService {
             }
             return "Oops some error";
         } catch (Exception e) {
-            return "null";
+            return e.getMessage();
         }
 
     }
 
+
     @Override
     public BaseSaleResponse viewAllSale() {
+        logger.info("Method execution started in viewAllSale");
 
         BaseSaleResponse baseSaleResponse = new BaseSaleResponse();
+        List<CustomSaleResponse> allSaleResponse = new ArrayList<>();
 
+        LocalDate today = LocalDate.now();
+        System.out.println(today);
         try {
-            List<SaleItemModel> saleItems = new LinkedList<>();
+            List<SaleModel> allSale = saleRepo.getAllSalesByDate(today.toString());
+            System.out.println(allSale.size());
+            if(!allSale.isEmpty()){
+                for (SaleModel sale : allSale) {
 
-            List<SaleModel> allSale = saleRepo.findAll();
+                    CustomSaleResponse customSaleResponse = new CustomSaleResponse();
+                    List<CustomSaleItems> relativeItem = new ArrayList<>();
 
-            for (SaleModel data : allSale) {
-                List<SaleItemModel> saleItemModels =
-                        saleItemRepo.allSaleItemBySaleId(data.getSaleId());
+                    customSaleResponse.setCustomerName(sale.getCustomer().getCustomerName());
+                    customSaleResponse.setEmailAddress(sale.getCustomer().getCustomerEmail());
+                    customSaleResponse.setPhoneNumber(sale.getCustomer().getPhoneNumber());
+                    customSaleResponse.setReturnMoney("No Money");
+                    customSaleResponse.setTotalPayment(String.valueOf(sale.getTotalAmount()));
 
-                saleItems.addAll(saleItemModels);
+                    List<SaleItemModel> saleItems =
+                            saleItemRepo.allSaleItemBySaleId(sale.getSaleId());
+
+                    for (SaleItemModel saleItem : saleItems) {
+                        CustomSaleItems customSaleItems = new CustomSaleItems();
+
+                        Optional<ProductModel> byId =
+                                productRepo.findById(Long.parseLong(saleItem.getProductId()));
+
+                        if (byId.isPresent()) {
+                            customSaleItems.setProductName(byId.get().getProductName());
+                        }
+
+                        customSaleItems.setQty(String.valueOf(saleItem.getQuantity()));
+                        customSaleItems.setUnitPrice(String.valueOf(saleItem.getUnitPrice()));
+                        customSaleItems.setWarrantyDays("1Day");
+
+                        relativeItem.add(customSaleItems);
+                    }
+
+                    customSaleResponse.setCustomSaleItems(relativeItem);
+                    allSaleResponse.add(customSaleResponse);
+                }
+
+                baseSaleResponse.setStatusCode("200");
+                baseSaleResponse.setMsg("Fetched All Sales Data");
+                baseSaleResponse.setSaleItems(allSaleResponse);
+                return baseSaleResponse;
             }
-
             baseSaleResponse.setStatusCode("200");
-            baseSaleResponse.setMsg("Fetched All Sale Data Successfully");
-            baseSaleResponse.setSaleItems(saleItems);
+            baseSaleResponse.setMsg("No sale data today");
+            baseSaleResponse.setSaleItems(allSaleResponse);
+            return baseSaleResponse;
 
         } catch (Exception e) {
-            baseSaleResponse.setStatusCode("500");
-            baseSaleResponse.setMsg("Error fetching sale data");
+            logger.info("Error in viewAllSale");
+            baseSaleResponse.setStatusCode("400");
+            baseSaleResponse.setMsg("Error "+e.getMessage());
+            return baseSaleResponse;
         }
+    }
 
-        return baseSaleResponse;
+    @Override
+    public BaseSaleResponse viewAllSaleBaseLocalDate(String date) {
+        logger.info("Method execution started in viewAllSaleBaseLocalDate |Date={}",date);
+
+        BaseSaleResponse baseSaleResponse = new BaseSaleResponse();
+        List<CustomSaleResponse> allSaleResponse = new ArrayList<>();
+
+        try {
+            List<SaleModel> allSale = saleRepo.getAllSalesByDate(date);
+            if(!allSale.isEmpty()){
+                for (SaleModel sale : allSale) {
+
+                    CustomSaleResponse customSaleResponse = new CustomSaleResponse();
+                    List<CustomSaleItems> relativeItem = new ArrayList<>();
+
+                    customSaleResponse.setCustomerName(sale.getCustomer().getCustomerName());
+                    customSaleResponse.setEmailAddress(sale.getCustomer().getCustomerEmail());
+                    customSaleResponse.setPhoneNumber(sale.getCustomer().getPhoneNumber());
+                    customSaleResponse.setReturnMoney("No Money");
+                    customSaleResponse.setTotalPayment(String.valueOf(sale.getTotalAmount()));
+
+                    List<SaleItemModel> saleItems =
+                            saleItemRepo.allSaleItemBySaleId(sale.getSaleId());
+
+                    for (SaleItemModel saleItem : saleItems) {
+                        CustomSaleItems customSaleItems = new CustomSaleItems();
+
+                        Optional<ProductModel> byId =
+                                productRepo.findById(Long.parseLong(saleItem.getProductId()));
+
+                        if (byId.isPresent()) {
+                            customSaleItems.setProductName(byId.get().getProductName());
+                        }
+
+                        customSaleItems.setQty(String.valueOf(saleItem.getQuantity()));
+                        customSaleItems.setUnitPrice(String.valueOf(saleItem.getUnitPrice()));
+                        customSaleItems.setWarrantyDays("1Day");
+
+                        relativeItem.add(customSaleItems);
+                    }
+
+                    customSaleResponse.setCustomSaleItems(relativeItem);
+                    allSaleResponse.add(customSaleResponse);
+                }
+
+                baseSaleResponse.setStatusCode("200");
+                baseSaleResponse.setMsg("Fetched All Sales Data");
+                baseSaleResponse.setSaleItems(allSaleResponse);
+                return baseSaleResponse;
+            }
+            logger.info("Method execution completed in viewAllSaleBaseLocalDate |Date={}",date);
+            baseSaleResponse.setStatusCode("200");
+            baseSaleResponse.setMsg("No sale data today");
+            baseSaleResponse.setSaleItems(allSaleResponse);
+            return baseSaleResponse;
+
+        } catch (Exception e) {
+            logger.info("Error in viewAllSaleBaseLocalDate |Date={}",date);
+            baseSaleResponse.setStatusCode("400");
+            baseSaleResponse.setMsg("Error "+e.getMessage());
+            return baseSaleResponse;
+        }
     }
 
 
@@ -94,19 +196,24 @@ public class SaleServiceImpl implements SaleService {
 
     private List<SaleItemModel> createSaleItemModel(SaleDto saleDto, SaleModel saveResponse) {
         List<SaleItemModel> saleItems = new LinkedList<>();
+
         for (SaleItemDTO data : saleDto.getSaleItems()) {
             SaleItemModel saleItemModel = new SaleItemModel();
+
+            // ===== COMMON FIELDS =====
             saleItemModel.setQuantity(data.getQuantity());
             saleItemModel.setSale(saveResponse);
+            saleItemModel.setProductType(data.getProductType());
             saleItemModel.setDiscountAmount(data.getDiscountAmount());
             saleItemModel.setWarrantyDuration(data.getWarrantyDuration());
             saleItemModel.setUnitPrice(data.getUnitPrice());
+            saleItemModel.setProductId(data.getProductId().toString());
 
-            PhoneModel product = phoneRepo.findById((long) data.getProductId())
-                    .orElseThrow(() -> new RuntimeException("product not found"));
-            saleItemModel.setProduct(product);
             saleItems.add(saleItemModel);
+
         }
         return saleItems;
     }
+
+
 }

@@ -10,7 +10,10 @@ public class APIConst {
     public static final String VIEW_PRODUCT_BY_ID = "/view-single-product";
     public static final String VIEW_PRODUCT_BY_TYPE = "/view-single-product-by-type";
     public static final String Update_PRODUCT_BY_ID = "/update-single-product";
+    public static final String UPDATE_ACCESSORY_BY_ID = "/update-accessory-product";
+    public static final String UPDATE_PHONE_BY_ID = "/update-phone-product";
     public static final String GET_ALL_PRODUCT_BY_CATEGORY = "/get-all-product-by-category";
+    public static final String GET_ALL_ACCESSORY_DATA = "/get-all-accessory";
 
     public static final String CREATE_CUSTOMER = "/create-customer";
     public static final String VIEW_SINGLE_CUSTOMER = "/view-single-customer";
@@ -32,6 +35,7 @@ public class APIConst {
     public static final String GET_DASHBOARD_DETAILS = "/get-dashboard-details";
 
     public static final String CREATE_REPAIR = "/create-repair-device";
+    public static final String VIEW_SINGLE_REPAIR = "/view-single-repair-device";
     public static final String CREATE_SALE = "/create-sale";
     public static final String VIEW_ALL_SALE = "/view-all-sale";
 

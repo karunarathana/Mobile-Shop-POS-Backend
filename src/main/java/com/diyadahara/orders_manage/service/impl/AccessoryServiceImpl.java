@@ -137,7 +137,7 @@ public class AccessoryServiceImpl implements AccessoryService {
 
     private AccessoryModel createAccessoryModel(AccessoryDto accessoryDto){
         AccessoryModel accessoryModel = new AccessoryModel();
-        accessoryModel.setType(accessoryDto.getType());
+        accessoryModel.setColor(accessoryDto.getColor());
         accessoryModel.setBrand(accessoryDto.getBrand());
         accessoryModel.setCompatibleWith(accessoryDto.getCompatibleWith());
         accessoryModel.setRackId(accessoryDto.getRackId());
@@ -146,7 +146,7 @@ public class AccessoryServiceImpl implements AccessoryService {
     private AccessoryModel updateAccessoryModel(UpdateAccessoryDto accessoryDto){
         AccessoryModel accessoryModel = new AccessoryModel();
         accessoryModel.setAccessoryId((long)accessoryDto.getAccessoryId());
-        accessoryModel.setType(accessoryDto.getType());
+        accessoryModel.setColor(accessoryDto.getColor());
         accessoryModel.setBrand(accessoryDto.getBrand());
         accessoryModel.setCompatibleWith(accessoryDto.getCompatibleWith());
         accessoryModel.setRackId(accessoryDto.getRackId());

@@ -3,10 +3,7 @@ package com.diyadahara.orders_manage.service.impl;
 import com.diyadahara.orders_manage.config.PhoneCondition;
 import com.diyadahara.orders_manage.config.ProductStatus;
 import com.diyadahara.orders_manage.dto.*;
-import com.diyadahara.orders_manage.model.AccessoryModel;
-import com.diyadahara.orders_manage.model.CategoryModel;
-import com.diyadahara.orders_manage.model.PhoneModel;
-import com.diyadahara.orders_manage.model.ProductModel;
+import com.diyadahara.orders_manage.model.*;
 import com.diyadahara.orders_manage.repo.CategoryRepo;
 import com.diyadahara.orders_manage.repo.PhoneRepo;
 import com.diyadahara.orders_manage.repo.ProductRepo;
@@ -133,28 +130,45 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Method Execution Completed IN viewSingleProduct |ProductId={} |Response={}", productId, "Please Check Product");
         return createErrorProductResponse("Please Check Product", HttpStatus.BAD_REQUEST);
     }
-//
-//    @Override
-//    public BaseProductResponse deleteSingleProduct(int productId) {
-//        logger.info("Method Execution Started IN deleteSingleProduct |ProductId={}", productId);
-//        try {
-//            List<SaleItemModel> existingProduct = saleItemRepo.allSaleItemByProductId((long) productId);
-//            if(existingProduct.isEmpty()){
-//                phoneRepo.deleteById((long) productId);
-//                logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
-//                return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK,null);
-//            }
-//            saleItemRepo.deleteAllByProductId((long)productId);
-//            phoneRepo.deleteById((long) productId);
-//            logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
-//            return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK,null);
-//        } catch (Exception e) {
-//            logger.error("Error deleteSingleProduct: {}", e.getMessage(), e);
-//            return createSuccessProductResponse("Failed to view product category: " + e.getMessage(),
-//                    HttpStatus.INTERNAL_SERVER_ERROR,null);
-//        }
-//    }
-//
+
+    @Override
+    public BaseAllProductResponse viewAllProductByTypeNotAPhone() {
+        logger.info("Method Execution Started IN viewAllProductByTypeNotAPhone");
+        BaseAllProductResponse baseAllProductResponse = new BaseAllProductResponse();
+        List<ProductModel> otherAccessory = productRepo.allProductByTypeNot("Mobile Phone");
+        if (!otherAccessory.isEmpty()) {
+            logger.info("Method Execution Completed IN viewAllProductByTypeNotAPhone");
+            baseAllProductResponse.setStatusCode("200");
+            baseAllProductResponse.setMsg("Fetch all accessory model");
+            baseAllProductResponse.setData(otherAccessory);
+            return baseAllProductResponse;
+        }
+        logger.info("Method Execution Completed IN viewAllProductByTypeNotAPhone", otherAccessory, "Please Check Product");
+        return baseAllProductResponse;
+    }
+
+    @Override
+    public BaseProductResponse deleteSingleProduct(int productId) {
+        logger.info("Method Execution Started IN deleteSingleProduct |ProductId={}", productId);
+        try {
+            List<SaleItemModel> existingProduct = saleItemRepo.allSaleItemByProductId((long) productId);
+            if (existingProduct.isEmpty()) {
+                productRepo.deleteById((long) productId);
+                phoneRepo.deleteById((long) productId);
+                logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
+                return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK, null);
+            }
+            saleItemRepo.deleteAllByProductId((long) productId);
+            phoneRepo.deleteById((long) productId);
+            logger.info("Method Execution Completed IN deleteSingleProduct |ProductId={}", productId);
+            return createSuccessProductResponse("Product Delete Successfully", HttpStatus.OK, null);
+        } catch (Exception e) {
+            logger.error("Error deleteSingleProduct: {}", e.getMessage(), e);
+            return createSuccessProductResponse("Failed to view product category: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR, null);
+        }
+    }
+
     @Override
     public BaseAllProductResponse viewAllProductByCategory(String type) {
         logger.info("Method Execution Started IN viewAllProductByCategory");
@@ -178,32 +192,62 @@ public class ProductServiceImpl implements ProductService {
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-//
-//    @Override
-//    public BaseProductResponse updateSingleProduct(UpdateProductDto productDto) {
-//        logger.info("Method Execution Started IN updateSingleProduct |ProductDto={} |ProductName={}", productDto, productDto.getName());
-//
-//        if (phoneRepo.existsByProduct(productDto.getImeiNumber()) != null) {
-//            try {
-//                PhoneModel phoneModel = generateUpdateProductModel(productDto);
-//                PhoneModel saveData = phoneRepo.save(phoneModel);
-//                if (saveData != null) {
-//                    logger.info("Method Execution Completed IN updateSingleProduct |SaveData={}", saveData);
-//                    return createSuccessProductResponse("Upgrade Product Successfully", HttpStatus.CREATED, saveData);
-//                }
-//                logger.info("Method Execution Completed IN updateSingleProduct |SaveData={}", saveData);
-//                return createErrorProductResponse("Failed to create product: " + productDto.getName(),
-//                        HttpStatus.BAD_REQUEST);
-//            } catch (Exception e) {
-//                logger.error("Error Create Product: {}", e.getMessage(), e);
-//                return createErrorProductResponse("Failed to update product: " + e.getMessage(),
-//                        HttpStatus.INTERNAL_SERVER_ERROR);
-//            }
-//        }
-//        logger.info("Method Execution Completed IN updateSingleProduct |Response={}", productDto.getName());
-//        return createErrorProductResponse("Empty Product In System " + productDto.getName(),
-//                HttpStatus.BAD_REQUEST);
-//    }
+
+    @Override
+    public BaseProductResponse updateSingleProduct(UpdateAccessoryProductDto productDto) {
+        return null;
+    }
+
+    @Override
+    public BaseProductResponse updateSinglePhoneProduct(UpdatePhoneProductDto phoneProductDto) {
+        logger.info("Method Execution Started IN updateSinglePhoneProduct |ProductDto={} |ProductName={}", phoneProductDto, phoneProductDto.getProductName());
+        BaseProductResponse baseProductResponse = new BaseProductResponse();
+        Optional<ProductModel> productId = productRepo.findById((long) phoneProductDto.getProductId());
+        try {
+            if(productId.isPresent()){
+                ProductModel productModel = generateUpdatePhoneModel(phoneProductDto);
+                baseProductResponse.setStatusCode("200");
+                baseProductResponse.setMsg("Phone Updated successfully");
+                baseProductResponse.setData(productModel);
+                logger.info("Method Execution Started IN updateSinglePhoneProduct |Response={}",baseProductResponse);
+                return baseProductResponse;
+            }
+            baseProductResponse.setStatusCode("400");
+            baseProductResponse.setMsg("Product not found");
+            baseProductResponse.setData(null);
+            return baseProductResponse;
+        } catch (Exception e) {
+            logger.error("Error updateSinglePhoneProduct: {}", e.getMessage(), e);
+            baseProductResponse.setMsg(e.getMessage());
+            return baseProductResponse;
+        }
+    }
+
+
+    @Override
+    public BaseProductResponse updateSingleAccessoryProduct(UpdateAccessoryProductDto productDto) {
+        logger.info("Method Execution Started IN updateSingleAccessoryProduct |ProductDto={} |ProductName={}", productDto, productDto.getProductName());
+        BaseProductResponse baseProductResponse = new BaseProductResponse();
+        Optional<ProductModel> productId = productRepo.findById((long) productDto.getProductId());
+        try {
+            if(productId.isPresent()){
+                ProductModel productModel = generateUpdateAccessoryModel(productDto);
+                baseProductResponse.setStatusCode("200");
+                baseProductResponse.setMsg("Accessory Updated successfully");
+                baseProductResponse.setData(productModel);
+                logger.info("Method Execution Completed IN updateSingleAccessoryProduct |Response={}",baseProductResponse);
+                return baseProductResponse;
+            }
+            baseProductResponse.setStatusCode("400");
+            baseProductResponse.setMsg("Product not found");
+            baseProductResponse.setData(null);
+            return baseProductResponse;
+        } catch (Exception e) {
+            logger.error("Error updateSingleAccessoryProduct: {}", e.getMessage(), e);
+            baseProductResponse.setMsg(e.getMessage());
+            return baseProductResponse;
+        }
+    }
 
     private PhoneModel generatePhoneModel(PhoneDto phoneDto) {
         PhoneModel phoneModel = new PhoneModel();
@@ -220,15 +264,15 @@ public class ProductServiceImpl implements ProductService {
         return phoneModel;
     }
 
-    private AccessoryModel generateAccessoryModel(AccessoryDto accessoryDto){
+    private AccessoryModel generateAccessoryModel(AccessoryDto accessoryDto) {
         AccessoryModel accessoryModel = new AccessoryModel();
         CategoryModel category = categoryRepo.findById(accessoryDto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
         accessoryModel.setRackId(accessoryDto.getRackId());
         accessoryModel.setBrand(accessoryDto.getBrand());
-        accessoryModel.setType(accessoryDto.getType());
+        accessoryModel.setColor(accessoryDto.getColor());
         accessoryModel.setCategoryId(category);
-        accessoryDto.setCompatibleWith(accessoryDto.getCompatibleWith());
+        accessoryModel.setCompatibleWith(accessoryDto.getCompatibleWith());
         return accessoryModel;
     }
 
@@ -243,7 +287,8 @@ public class ProductServiceImpl implements ProductService {
         productModel.setType(productDto.getType());
         return productModel;
     }
-    private  ProductModel generateProductModelWithAccessory(ProductAccessory productAccessory){
+
+    private ProductModel generateProductModelWithAccessory(ProductAccessory productAccessory) {
         ProductModel productModel = new ProductModel();
         productModel.setProductName(productAccessory.getProductName());
         productModel.setDiscountPercentage(productAccessory.getDiscountPercentage());
@@ -255,26 +300,59 @@ public class ProductServiceImpl implements ProductService {
         return productModel;
     }
 
-    private PhoneModel generateUpdateProductModel(UpdateProductDto productDto) {
-        PhoneModel phoneModel = new PhoneModel();
-//        phoneModel.setProductId((long)productDto.getProductId());
-//        phoneModel.setProductName(productDto.getName());
-//        CategoryModel category = categoryRepo.findById(productDto.getCategoryId())
-//                .orElseThrow(() -> new RuntimeException("Category not found"));
-//        phoneModel.setCategoryId(category);
-//        phoneModel.setDiscountPercentage(productDto.getDiscount());
-//        phoneModel.setPurchasePrice(productDto.getPurchasePrice());
-//        phoneModel.setUpdatedBy(productDto.getCreateBy());
-//        phoneModel.setSellingPrice(productDto.getSellingPrice());
-//        phoneModel.setModel(productDto.getModel());
-//        phoneModel.setBrand(productDto.getBrand());
-//        phoneModel.setCondition(productDto.getCondition());
-//        phoneModel.setQuantityInStock(productDto.getQuantityInStock());
-//        phoneModel.setImeiNumber(productDto.getImeiNumber());
-//        phoneModel.setColor(productDto.getColor());
-        phoneModel.setStorageCapacity(productDto.getStorageCapacity());
+    private ProductModel generateUpdateAccessoryModel(UpdateAccessoryProductDto productDto) {
+        ProductModel productModel = new ProductModel();
+        productModel.setProductId((long) productDto.getProductId());
+        productModel.setProductName(productDto.getProductName());
+        productModel.setDiscountPercentage(productDto.getDiscountPercentage());
+        productModel.setSellingPrice(productDto.getSellingPrice());
+        productModel.setPurchasePrice(productDto.getPurchasePrice());
+        productModel.setStatus(ProductStatus.valueOf(productDto.getStatus()));
+        productModel.setStock(productDto.getStock());
+        productModel.setType(productDto.getType());
 
-        return phoneModel;
+        AccessoryModel accessoryModel = new AccessoryModel();
+        CategoryModel category = categoryRepo.findById(productDto.getAccessoryDto().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        accessoryModel.setAccessoryId((long)productDto.getAccessoryId());
+        accessoryModel.setRackId(productDto.getAccessoryDto().getRackId());
+        accessoryModel.setBrand(productDto.getAccessoryDto().getBrand());
+        accessoryModel.setColor(productDto.getAccessoryDto().getColor());
+        accessoryModel.setCategoryId(category);
+        accessoryModel.setCompatibleWith(productDto.getAccessoryDto().getCompatibleWith());
+
+        accessoryModel.setProduct(productModel);
+        productModel.setAccessoryId(accessoryModel);
+        return productRepo.save(productModel);
+    }
+
+    private ProductModel generateUpdatePhoneModel(UpdatePhoneProductDto productDto) {
+        ProductModel productModel = new ProductModel();
+        productModel.setProductId((long) productDto.getProductId());
+        productModel.setProductName(productDto.getProductName());
+        productModel.setDiscountPercentage(productDto.getDiscountPercentage());
+        productModel.setSellingPrice(productDto.getSellingPrice());
+        productModel.setPurchasePrice(productDto.getPurchasePrice());
+        productModel.setStatus(ProductStatus.valueOf(productDto.getStatus()));
+        productModel.setStock(productDto.getStock());
+        productModel.setType(productDto.getType());
+
+        PhoneModel phoneModel = new PhoneModel();
+        phoneModel.setPhoneId((long)productDto.getPhoneId());
+        phoneModel.setModel(productDto.getPhoneDto().getModel());
+        CategoryModel category = categoryRepo.findById(productDto.getPhoneDto().getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        phoneModel.setCategoryId(category);
+        phoneModel.setUpdatedBy(productDto.getPhoneDto().getCreateBy());
+        phoneModel.setBrand(productDto.getPhoneDto().getBrand());
+        phoneModel.setCondition(PhoneCondition.valueOf(productDto.getPhoneDto().getCondition().toUpperCase()));
+        phoneModel.setImeiNumber(productDto.getPhoneDto().getImeiNumber());
+        phoneModel.setColor(productDto.getPhoneDto().getColor());
+        phoneModel.setStorageCapacity(productDto.getPhoneDto().getStorageCapacity());
+
+        phoneModel.setProduct(productModel);
+        productModel.setPhone(phoneModel);
+        return productRepo.save(productModel);
     }
 
     private BaseProductResponse createSuccessProductResponse(String message, HttpStatus status, ProductModel productModel) {

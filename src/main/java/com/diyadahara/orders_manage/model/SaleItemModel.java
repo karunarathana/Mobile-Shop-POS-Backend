@@ -21,15 +21,21 @@ public class SaleItemModel {
     )
     private SaleModel sale;
 
+    @Column(name = "product_type", nullable = false)
+    private String productType; // PHONE / ACCESSORY
+
+    @Column(name = "product_id", nullable = false)
+    private String productId;
+
     // Product sold
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "product_id",
-            referencedColumnName = "product_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_sale_item_product")
-    )
-    private PhoneModel product;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(
+//            name = "product_id",
+//            referencedColumnName = "product_id",
+//            nullable = false,
+//            foreignKey = @ForeignKey(name = "fk_sale_item_product")
+//    )
+//    private ProductModel product;
 
     @Column(nullable = false)
     private int quantity;
@@ -59,12 +65,12 @@ public class SaleItemModel {
         this.sale = sale;
     }
 
-    public PhoneModel getProduct() {
-        return product;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct(PhoneModel product) {
-        this.product = product;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -97,6 +103,14 @@ public class SaleItemModel {
 
     public void setWarrantyDuration(int warrantyDuration) {
         this.warrantyDuration = warrantyDuration;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 }
 

@@ -5,7 +5,7 @@ public class UpdateAccessoryDto {
     private String name;
     private String rackId;
     private String brand;
-    private String type;
+    private String color;
     private String compatibleWith;
     private double sellPrice;
     private double costPrice;
@@ -43,12 +43,12 @@ public class UpdateAccessoryDto {
         this.brand = brand;
     }
 
-    public String getType() {
-        return type;
+    public String getColor() {
+        return color;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getCompatibleWith() {

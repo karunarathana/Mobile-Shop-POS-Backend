@@ -1,6 +1,7 @@
 package com.diyadahara.orders_manage.dto;
 
 public class SaleItemDTO {
+    private String productType;
     private Long productId;
     private int quantity;
     private double unitPrice;
@@ -45,5 +46,13 @@ public class SaleItemDTO {
 
     public void setWarrantyDuration(int warrantyDuration) {
         this.warrantyDuration = warrantyDuration;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 }
